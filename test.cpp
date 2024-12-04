@@ -187,20 +187,20 @@ int main() {
     int choice;
     do {
         cout << "\n=== Menu Playlist ===" << endl;
-        cout << "1. Tampilkan Daftar Lagu Tersedia" << endl;
-        cout << "2. Buat Playlist Baru" << endl;
-        cout << "3. Tampilkan Semua Playlist" << endl;
+        cout << "1. Tampilkan Daftar Lagu" << endl;
+        cout << "2. Buat Playlist" << endl;
+        cout << "3. Tampilkan Daftar Playlist" << endl;
         cout << "0. Keluar" << endl;
         cout << "Pilih opsi: ";
         cin >> choice;
 
         cin.ignore(); 
         if (choice == 1) {
-            cout << "\nDaftar Lagu Tersedia:" << endl;
+            cout << "\nDaftar Lagu:" << endl;
             displaySongs(availableSongs);
         } else if (choice == 2) {
             string playlistName;
-            cout << "Masukkan nama playlist baru: ";
+            cout << "Masukkan playlist baru: ";
             getline(cin, playlistName);
 
             Playlist* newPlaylist = createPlaylist(playlistName);
@@ -209,9 +209,10 @@ int main() {
 
             int songChoice;
             do {
-                cout << "\nDaftar Lagu Tersedia:" << endl;
+                cout << "\nDaftar Lagu:" << endl;
                 displaySongs(availableSongs);
-                cout << "Pilih nomor lagu untuk ditambahkan ke playlist (0 untuk selesai): ";
+                cout << "0. Selesai" << endl;
+                cout << "Pilih lagu untuk ditambahkan ke playlist: ";
                 cin >> songChoice;
 
                 if (songChoice > 0) {
@@ -230,7 +231,7 @@ int main() {
             } while (songChoice != 0);
         } else if (choice == 3) {
             if (playlists == nullptr) {
-                cout << "Tidak ada playlist yang tersedia." << endl;
+                cout << "Tidak ada playlist." << endl;
                 continue;
             }
 
@@ -252,7 +253,6 @@ int main() {
                 int subChoice;
                 do {
                     cout << "\nPlaylist: " << temp->name << endl;
-                    cout << "Lagu-lagu dalam playlist:" << endl;
                     displaySongs(temp->songs);
 
                     cout << "\n1. Urutkan berdasarkan Nama Lagu" << endl;
@@ -274,7 +274,7 @@ int main() {
                         do {
                             cout << "\nDaftar Lagu Tersedia:" << endl;
                             displaySongs(availableSongs);
-                            cout << "Pilih nomor lagu untuk ditambahkan ke playlist (0 untuk selesai): ";
+                            cout << "Pilih nomor lagu untuk ditambahkan ke playlist: ";
                             cin >> songChoice;
 
                             if (songChoice > 0) {
@@ -294,22 +294,22 @@ int main() {
                     else if (subChoice == 4) { 
                         cin.ignore(); 
                         string songName;
-                        cout << "Masukkan nama lagu yang ingin dihapus: ";
+                        cout << "Masukkan lagu yang ingin dihapus: ";
                         getline(cin, songName);
                         deleteSongFromPlaylist(temp->songs, songName);
                     } 
                     
                     else if (subChoice != 0) {
-                        cout << "Pilihan tidak valid!" << endl;
+                        cout << "Pilihan tidak valid." << endl;
                     }
                 } while (subChoice != 0);
             } else {
                 cout << "Pilihan tidak valid." << endl;
             }
         } else if (choice == 0) {
-            cout << "Keluar dari program." << endl;
+            cout << "Saving..." << endl;
         } else {
-            cout << "Pilihan tidak valid!" << endl;
+            cout << "Pilihan tidak valid." << endl;
         } 
     } while (choice != 0);
 
