@@ -54,7 +54,7 @@ void addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
         }
         temp->next = newSong;
     }
-    cout << "Lagu '" << name << "' berhasil ditambahkan ke playlist." << endl; 
+    cout << name << "' berhasil ditambahkan ke playlist." << endl; 
 }
 
 
