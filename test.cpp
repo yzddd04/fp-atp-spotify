@@ -3,8 +3,7 @@
 #include <algorithm>
 
 using namespace std;
-// yaskur
-// Struktur untuk menyimpan data lagu
+
 struct Song {
     string name;
     string artist;
@@ -12,14 +11,12 @@ struct Song {
     Song* next;
 };
 
-// Struktur untuk playlist
 struct Playlist {
     string name;
     Song* songs;
     Playlist* next;
 };
 
-// Fungsi untuk membuat node lagu baru
 Song* createSong(string name, string artist, string genre) {
     Song* newSong = new Song();
     newSong->name = name;
@@ -29,7 +26,6 @@ Song* createSong(string name, string artist, string genre) {
     return newSong;
 }
 
-// Fungsi untuk membuat node playlist baru
 Playlist* createPlaylist(string name) {
     Playlist* newPlaylist = new Playlist();
     newPlaylist->name = name;
@@ -38,9 +34,7 @@ Playlist* createPlaylist(string name) {
     return newPlaylist;
 }
 
-//untuk menambahkan lagu
 void addSongToPlaylist(Song*& playlistSongs, string name, string artist, string genre) {
-    // Mengecek apakah lagu sudah ada dalam playlist
     Song* temp = playlistSongs;
     while (temp != nullptr) {
         if (temp->name == name && temp->artist == artist) {
@@ -50,7 +44,6 @@ void addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
         temp = temp->next;
     }
 
-    // Jika lagu belum ada, tambahkan ke playlist
     Song* newSong = createSong(name, artist, genre);
     if (playlistSongs == nullptr) {
         playlistSongs = newSong;
@@ -65,7 +58,6 @@ void addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
 }
 
 
-// Fungsi untuk menampilkan semua lagu dalam playlist
 void displaySongs(Song* head) {
     if (head == nullptr) {
         cout << "Playlist kosong!" << endl;
@@ -80,7 +72,6 @@ void displaySongs(Song* head) {
     }
 }
 
-// Fungsi untuk menampilkan semua playlist yang ada
 void displayPlaylists(Playlist* head) {
     if (head == nullptr) {
         cout << "Tidak ada playlist yang dibuat." << endl;
@@ -95,7 +86,6 @@ void displayPlaylists(Playlist* head) {
     }
 }
 
-// Fungsi untuk menginisialisasi daftar lagu
 void initializeAvailableSongs(Song*& availableSongs) {
     addSongToPlaylist(availableSongs, "Bohemian Rhapsody", "Queen", "Rock");
     addSongToPlaylist(availableSongs, "Rolling in the Deep", "Adele", "Pop");
@@ -109,7 +99,6 @@ void initializeAvailableSongs(Song*& availableSongs) {
     addSongToPlaylist(availableSongs, "Imagine", "John Lennon", "Rock/Pop");
 }
 
-// Fungsi untuk mengonversi linked list lagu menjadi array untuk sorting
 int songListToArray(Song* head, Song* arr[]) {
     int count = 0;
     while (head != nullptr) {
@@ -119,7 +108,6 @@ int songListToArray(Song* head, Song* arr[]) {
     return count;
 }
 
-// Fungsi untuk mengurutkan playlist berdasarkan nama lagu
 void sortSongsByName(Song*& head) {
     if (head == nullptr || head->next == nullptr) return;
 
@@ -130,7 +118,6 @@ void sortSongsByName(Song*& head) {
         return a->name < b->name;
     });
 
-    // Rekonstruksi linked list
     head = arr[0];
     Song* temp = head;
     for (int i = 1; i < count; i++) {
@@ -140,7 +127,6 @@ void sortSongsByName(Song*& head) {
     temp->next = nullptr;
 }
 
-// Fungsi untuk mengurutkan playlist berdasarkan nama artis
 void sortSongsByArtist(Song*& head) {
     if (head == nullptr || head->next == nullptr) return;
 
@@ -151,7 +137,6 @@ void sortSongsByArtist(Song*& head) {
         return a->artist < b->artist;
     });
 
-    // Rekonstruksi linked list
     head = arr[0];
     Song* temp = head;
     for (int i = 1; i < count; i++) {
@@ -161,14 +146,12 @@ void sortSongsByArtist(Song*& head) {
     temp->next = nullptr;
 }
 
-// Fungsi untuk menghapus lagu dari playlist
 void deleteSongFromPlaylist(Song*& head, string songName) {
     if (head == nullptr) {
         cout << "Playlist kosong! Tidak ada lagu yang dapat dihapus." << endl;
         return;
     }
 
-    // Jika lagu yang ingin dihapus adalah head
     if (head->name == songName) {
         Song* temp = head;
         head = head->next;
@@ -177,7 +160,6 @@ void deleteSongFromPlaylist(Song*& head, string songName) {
         return;
     }
 
-    // Mencari lagu dalam playlist
     Song* current = head;
     Song* previous = nullptr;
 
@@ -191,7 +173,6 @@ void deleteSongFromPlaylist(Song*& head, string songName) {
         return;
     }
 
-    // Hapus node yang ditemukan
     previous->next = current->next;
     delete current;
     cout << "Lagu '" << songName << "' berhasil dihapus dari playlist." << endl;
