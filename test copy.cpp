@@ -3,7 +3,7 @@
 #include <algorithm>
 
 using namespace std;
-// yaskur
+
 // Struktur untuk menyimpan data lagu
 struct Song {
     string name;
@@ -45,7 +45,7 @@ void addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
     while (temp != nullptr) {
         if (temp->name == name && temp->artist == artist) {
             cout << "Lagu '" << name << "' sudah ada di dalam playlist ini." << endl;
-            return; 
+            return; // Jangan lanjutkan menambahkan lagu jika sudah ada
         }
         temp = temp->next;
     }
@@ -61,7 +61,7 @@ void addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
         }
         temp->next = newSong;
     }
-    cout << "Lagu '" << name << "' berhasil ditambahkan ke playlist." << endl; 
+    cout << "Lagu '" << name << "' berhasil ditambahkan ke playlist." << endl; // Hanya ditampilkan jika lagu berhasil ditambahkan
 }
 
 
@@ -199,9 +199,9 @@ void deleteSongFromPlaylist(Song*& head, string songName) {
 
 
 int main() {
-    Song* availableSongs = nullptr; 
-    Playlist* playlists = nullptr; 
-    initializeAvailableSongs(availableSongs); 
+    Song* availableSongs = nullptr; // Daftar lagu yang tersedia
+    Playlist* playlists = nullptr; // Daftar playlist
+    initializeAvailableSongs(availableSongs); // Inisialisasi daftar lagu
 
     int choice;
     do {
@@ -213,7 +213,7 @@ int main() {
         cout << "Pilih opsi: ";
         cin >> choice;
 
-        cin.ignore(); 
+        cin.ignore(); // Membersihkan buffer input
         if (choice == 1) {
             cout << "\nDaftar Lagu Tersedia:" << endl;
             displaySongs(availableSongs);
@@ -282,13 +282,13 @@ int main() {
                     cout << "Pilih opsi: ";
                     cin >> subChoice;
 
-                    if (subChoice == 1) { 
+                    if (subChoice == 1) { // mengurutkan lagu berdasarkan nama
                         sortSongsByName(temp->songs);
                         cout << "Playlist diurutkan berdasarkan Nama Lagu." << endl;
-                    } else if (subChoice == 2) { 
+                    } else if (subChoice == 2) { // mengurutkan lagu berdasarkan nama artis
                         sortSongsByArtist(temp->songs);
                         cout << "Playlist diurutkan berdasarkan Nama Artis." << endl;
-                    } else if (subChoice == 3) { 
+                    } else if (subChoice == 3) { // menambahkan lagu ke playlist yang sudah dibuat
                         int songChoice;
                         do {
                             cout << "\nDaftar Lagu Tersedia:" << endl;
@@ -310,8 +310,8 @@ int main() {
                         } while (songChoice != 0);
                     } 
                     
-                    else if (subChoice == 4) { 
-                        cin.ignore(); 
+                    else if (subChoice == 4) { // Hapus lagu dari playlist yang sudah dibuat
+                        cin.ignore(); // Membersihkan buffer
                         string songName;
                         cout << "Masukkan nama lagu yang ingin dihapus: ";
                         getline(cin, songName);
