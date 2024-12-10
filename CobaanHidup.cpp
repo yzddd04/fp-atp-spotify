@@ -5,21 +5,24 @@
 
 using namespace std;
 
-struct Song {
+struct Song 
+{
     string name;
     string artist;
     string genre;
     Song* next;
 };
 
-struct Playlist {
+struct Playlist 
+{
     string name;
     Song* songs;
     Playlist* next;
 };
 
 // create new node
-Song* createSong(string name, string artist, string genre) {
+Song* createSong(string name, string artist, string genre) 
+{
     Song* newSong = new Song();
     newSong->name = name;
     newSong->artist = artist;
@@ -29,7 +32,8 @@ Song* createSong(string name, string artist, string genre) {
 }
 
 // make new playlist
-Playlist* createPlaylist(string name) {
+Playlist* createPlaylist(string name) 
+{
     Playlist* newPlaylist = new Playlist();
     newPlaylist->name = name;
     newPlaylist->songs = nullptr;
@@ -38,11 +42,14 @@ Playlist* createPlaylist(string name) {
 }
 
 // add song to playlist
-bool addSongToPlaylist(Song*& playlistSongs, string name, string artist, string genre) {
+bool addSongToPlaylist(Song*& playlistSongs, string name, string artist, string genre) 
+{
     // cek jika lagu sudah ada, return false
     Song* temp = playlistSongs;
-    while (temp != nullptr) {
-        if (temp->name == name && temp->artist == artist) {
+    while (temp != nullptr) 
+    {
+        if (temp->name == name && temp->artist == artist) 
+        {
             cout << "Lagu '" << name << "' sudah ada di dalam playlist ini." << endl;
             return false;
         }
@@ -51,11 +58,13 @@ bool addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
 
     // jika lagu belum ada, tambahkan lagu baru dan return true
     Song* newSong = createSong(name, artist, genre);
-    if (playlistSongs == nullptr) {
+    if (playlistSongs == nullptr) 
+    {
         playlistSongs = newSong;
     } else {
         temp = playlistSongs;
-        while (temp->next != nullptr) {
+        while (temp->next != nullptr) 
+        {
             temp = temp->next;
         }
         temp->next = newSong;
@@ -67,30 +76,35 @@ bool addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
 
 
 // menampilkan lagu dalam sebuah playlist
-void displaySongs(Song* head) {
-    if (head == nullptr) {
+void displaySongs(Song* head) 
+{
+    if (head == nullptr) 
+    {
         cout << "Playlist kosong!" << endl;
         return;
     }
     Song* temp = head;
     int songIndex = 1;
-    while (temp != nullptr) {
-    cout << songIndex << ". " << temp->name << " - " << temp->artist << " (" << temp->genre << ")" << endl;
-    temp = temp->next;
-    songIndex++;
-}
-
+    while (temp != nullptr) 
+    {
+        cout << songIndex << ". " << temp->name << " - " << temp->artist << " (" << temp->genre << ")" << endl;
+        temp = temp->next;
+        songIndex++;
+    }
 }
 
 // menampilkan playlist yang ada
-void displayPlaylists(Playlist* head) {
-    if (head == nullptr) {
+void displayPlaylists(Playlist* head) 
+{
+    if (head == nullptr) 
+    {
         cout << "Tidak ada playlist yang dibuat." << endl;
         return;
     }
     Playlist* temp = head;
     int index = 1;
-    while (temp != nullptr) {
+    while (temp != nullptr) 
+    {
         cout << index << ". Playlist: " << temp->name << endl;
         temp = temp->next;
         index++;
@@ -98,7 +112,8 @@ void displayPlaylists(Playlist* head) {
 }
 
 // inisialisasi lagu yang tersedia (by default)
-void initializeAvailableSongs(Song*& availableSongs) {
+void initializeAvailableSongs(Song*& availableSongs) 
+{
     addSongToPlaylist(availableSongs, "Bohemian Rhapsody", "Queen", "Rock");
     addSongToPlaylist(availableSongs, "Rolling in the Deep", "Adele", "Pop");
     addSongToPlaylist(availableSongs, "Feeling Good", "Nina Simone", "Jazz");
@@ -112,9 +127,11 @@ void initializeAvailableSongs(Song*& availableSongs) {
 }
 
 // convert lagu jadi array, buat sorting
-int songListToArray(Song* head, Song* arr[]) {
+int songListToArray(Song* head, Song* arr[]) 
+{
     int count = 0;
-    while (head != nullptr) {
+    while (head != nullptr) 
+    {
         arr[count++] = head;
         head = head->next;
     }
@@ -122,20 +139,23 @@ int songListToArray(Song* head, Song* arr[]) {
 }
 
 // sort by song name
-void sortSongsByName(Song*& head) {
+void sortSongsByName(Song*& head) 
+{
     if (head == nullptr || head->next == nullptr) return;
 
     Song* arr[100];
     int count = songListToArray(head, arr);
 
-    sort(arr, arr + count, [](Song* a, Song* b) {
+    sort(arr, arr + count, [](Song* a, Song* b) 
+    {
         return a->name < b->name;
     });
 
     // Rekonstruksi linked list
     head = arr[0];
     Song* temp = head;
-    for (int i = 1; i < count; i++) {
+    for (int i = 1; i < count; i++) 
+    {
         temp->next = arr[i];
         temp = temp->next;
     }
@@ -143,20 +163,23 @@ void sortSongsByName(Song*& head) {
 }
 
 // sort by artist
-void sortSongsByArtist(Song*& head) {
+void sortSongsByArtist(Song*& head) 
+{
     if (head == nullptr || head->next == nullptr) return;
 
     Song* arr[100];
     int count = songListToArray(head, arr);
 
-    sort(arr, arr + count, [](Song* a, Song* b) {
+    sort(arr, arr + count, [](Song* a, Song* b) 
+    {
         return a->artist < b->artist;
     });
 
     // Rekonstruksi linked list
     head = arr[0];
     Song* temp = head;
-    for (int i = 1; i < count; i++) {
+    for (int i = 1; i < count; i++) 
+    {
         temp->next = arr[i];
         temp = temp->next;
     }
@@ -164,14 +187,17 @@ void sortSongsByArtist(Song*& head) {
 }
 
 // delete song from playlist
-void deleteSongFromPlaylist(Song*& head, string songName) {
-    if (head == nullptr) { // jika playlist kosong
+void deleteSongFromPlaylist(Song*& head, string songName) 
+{
+    if (head == nullptr) 
+    { // jika playlist kosong
         cout << "Playlist kosong! Tidak ada lagu yang dapat dihapus." << endl;
         return;
     }
 
     // jika lagu yang ingin dihapus adalah head (delete from beginning)
-    if (head->name == songName) {
+    if (head->name == songName) 
+    {
         Song* temp = head;
         head = head->next;
         delete temp;
@@ -183,12 +209,14 @@ void deleteSongFromPlaylist(Song*& head, string songName) {
     Song* current = head;
     Song* previous = nullptr;
 
-    while (current != nullptr && current->name != songName) {
+    while (current != nullptr && current->name != songName) 
+    {
         previous = current;
         current = current->next;
     }
 
-    if (current == nullptr) {
+    if (current == nullptr) 
+    {
         cout << "Lagu '" << songName << "' tidak ditemukan dalam playlist." << endl;
         return;
     }
@@ -201,20 +229,24 @@ void deleteSongFromPlaylist(Song*& head, string songName) {
 
 
 // menambahkan lagu yg tersedia dari file txt
-void readFromFile(Song*& head, const string& fileName) {
+void readFromFile(Song*& head, const string& fileName) 
+{
     ifstream file(fileName);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cout << "Gagal membuka file: " << fileName << endl;
         return;
     }
 
     string line;
     int count = 0; // untuk menghitung jumlah lagu yg berhasil ditambahkan
-    while (getline(file, line)) {
+    while (getline(file, line)) 
+    {
         size_t pos1 = line.find(',');
         size_t pos2 = line.rfind(',');
         // jika formmat tidak valdi
-        if (pos1 == string::npos || pos2 == string::npos || pos1 == pos2) {
+        if (pos1 == string::npos || pos2 == string::npos || pos1 == pos2) 
+        {
             cout << "Format data tidak valid: " << line << endl;
             continue;
         }
@@ -223,29 +255,36 @@ void readFromFile(Song*& head, const string& fileName) {
         string artist = line.substr(pos1 + 1, pos2 - pos1 - 1);
         string genre = line.substr(pos2 + 1);
 
-        if (addSongToPlaylist(head, name, artist, genre)) {
+        if (addSongToPlaylist(head, name, artist, genre)) 
+        {
             count++; // menghitung lagu yg berhasil ditambahkan
         }
     }
 
     file.close();
-    if (count > 0) {
+    if (count > 0) 
+    {
         cout << count << " lagu berhasil dimuat dari file." << endl;
-    } else {
+    } 
+    else 
+    {
         cout << "Tidak ada lagu baru yang ditambahkan dari file." << endl;
     }
 }
 
 // simpan playlist ke txt
-void savePlaylistToFile(Song* head, const string& fileName) {
+void savePlaylistToFile(Song* head, const string& fileName) 
+{
     ofstream file(fileName);
-    if (!file.is_open()) {
+    if (!file.is_open()) 
+    {
         cout << "Gagal membuka file: " << fileName << endl;
         return;
     }
 
     Song* temp = head;
-    while (temp != nullptr) {
+    while (temp != nullptr) 
+    {
         file << temp->name << "," << temp->artist << "," << temp->genre << endl;
         temp = temp->next;
     }
@@ -255,7 +294,8 @@ void savePlaylistToFile(Song* head, const string& fileName) {
 }
 
 // menambahkan lagu yg tersedia dari user
-void addSongFromUserInput(Song*& availableSongs) {
+void addSongFromUserInput(Song*& availableSongs) 
+{
     string name, artist, genre;
 
     cout << "Masukkan nama lagu: ";
@@ -269,38 +309,50 @@ void addSongFromUserInput(Song*& availableSongs) {
 
     if (addSongToPlaylist(availableSongs, name, artist, genre)) {
         cout << "Lagu berhasil ditambahkan ke daftar lagu yang tersedia!" << endl;
-    } else {
+    } 
+    else 
+    {
         cout << "Lagu tersebut sudah ada dalam daftar lagu yang tersedia." << endl;
     }
 }
 
 // menambahkan lagu ke Favorit
-void addSongToFavorite(Song* availableSongs, Song*& favoriteSongs, Playlist* playlists) {
+void addSongToFavorite(Song* availableSongs, Song*& favoriteSongs, Playlist* playlists) 
+{
+    cout << "\nDaftar Lagu Tersedia:" << endl;
+    displaySongs(availableSongs);
+    
     int songChoice;
     do {
-        cout << "\nDaftar Lagu Tersedia:" << endl;
-        displaySongs(availableSongs);
         cout << "Pilih nomor lagu untuk ditambahkan ke playlist Favorite (0 untuk selesai): ";
         cin >> songChoice;
-        if (songChoice > 0) {
+        if (songChoice > 0) 
+        {
             Song* temp = availableSongs;
             int index = 1;
-            while (temp != nullptr && index < songChoice) {
+            while (temp != nullptr && index < songChoice) 
+            {
                 temp = temp->next;
                 index++;
             }
-            if (temp != nullptr) {
-                if (addSongToPlaylist(favoriteSongs, temp->name, temp->artist, temp->genre)) {
+            if (temp != nullptr) 
+            {
+                if (addSongToPlaylist(favoriteSongs, temp->name, temp->artist, temp->genre)) 
+                {
                     Playlist* favoritePlaylist = playlists;
-                    while (favoritePlaylist != nullptr) {
-                        if (favoritePlaylist->name == "Favorite") {
+                    while (favoritePlaylist != nullptr) 
+                    {
+                        if (favoritePlaylist->name == "Favorite") 
+                        {
                             favoritePlaylist->songs = favoriteSongs;
                             break;
                         }
                         favoritePlaylist = favoritePlaylist->next;
                     }
                 }
-            } else {
+            } 
+            else 
+            {
                 cout << "Pilihan tidak valid." << endl;
             }
         }
@@ -308,7 +360,8 @@ void addSongToFavorite(Song* availableSongs, Song*& favoriteSongs, Playlist* pla
 }
 
 
-int main() {
+int main() 
+{
     Song* availableSongs = nullptr; // lagu yang tersedia
     Playlist* playlists = nullptr; // playlist
     Song* favoriteSongs = nullptr; // playlist Favorite
@@ -337,14 +390,18 @@ int main() {
         cin >> choice;
         cin.ignore();
 
-        switch (choice) {
-        case 1: {
+        switch (choice) 
+        {
+        case 1: 
+        {
             cout << "\n=== Daftar Lagu Tersedia ===" << endl;
             displaySongs(availableSongs);
+            system("pause");
             break;
         }
 
-        case 2: {
+        case 2: 
+        {
             string playlistName;
             cout << "Masukkan nama playlist baru: ";
             getline(cin, playlistName);
@@ -353,22 +410,28 @@ int main() {
             newPlaylist->next = playlists;
             playlists = newPlaylist;
 
+            cout << "\nDaftar Lagu Tersedia:" << endl;
+            displaySongs(availableSongs);
+            
             int songChoice;
             do {
-                cout << "\nDaftar Lagu Tersedia:" << endl;
-                displaySongs(availableSongs);
                 cout << "Pilih nomor lagu untuk ditambahkan ke playlist (0 untuk selesai): ";
                 cin >> songChoice;
-                if (songChoice > 0) {
+                if (songChoice > 0) 
+                {
                     Song* temp = availableSongs;
                     int index = 1;
-                    while (temp != nullptr && index < songChoice) {
+                    while (temp != nullptr && index < songChoice) 
+                    {
                         temp = temp->next;
                         index++;
                     }
-                    if (temp != nullptr) {
+                    if (temp != nullptr) 
+                    {
                         addSongToPlaylist(newPlaylist->songs, temp->name, temp->artist, temp->genre);
-                    } else {
+                    } 
+                    else 
+                    {
                         cout << "Pilihan tidak valid." << endl;
                     }
                 }
@@ -376,36 +439,41 @@ int main() {
             break;
         }
 
-        case 3: {
-    if (playlists == nullptr) {
-        cout << "Tidak ada playlist yang tersedia." << endl;
-        continue;
-    }
+        case 3: 
+        {
+            if (playlists == nullptr) 
+            {
+                cout << "Tidak ada playlist yang tersedia." << endl;
+                continue;
+            }
 
-    cout << "\nDaftar Playlist:" << endl;
-    displayPlaylists(playlists);
+            cout << "\nDaftar Playlist:" << endl;
+            displayPlaylists(playlists);
 
-    int playlistChoice;
-    cout << "Pilih nomor playlist untuk melihat lagu-lagunya (0 untuk kembali ke menu utama): ";
-    cin >> playlistChoice;
-    cin.ignore();
+            int playlistChoice;
+            cout << "Pilih nomor playlist untuk melihat lagu-lagunya (0 untuk kembali ke menu utama): ";
+            cin >> playlistChoice;
+            cin.ignore();
 
-    if (playlistChoice == 0) {
-        break;
-    }
+            if (playlistChoice == 0) 
+            {
+                break;
+            }
 
-    Playlist* selectedPlaylist = playlists;
-    int index = 1;
-    while (selectedPlaylist != nullptr && index < playlistChoice) {
-        selectedPlaylist = selectedPlaylist->next;
-        index++;
-    }
+            Playlist* selectedPlaylist = playlists;
+            int index = 1;
+            while (selectedPlaylist != nullptr && index < playlistChoice) 
+            {
+                selectedPlaylist = selectedPlaylist->next;
+                index++;
+            }
 
-    if (selectedPlaylist != nullptr) {
-        int subChoice;
-        do {
-            cout << "\nLagu-lagu dalam Playlist: " << selectedPlaylist->name << endl;
-            displaySongs(selectedPlaylist->songs);
+            if (selectedPlaylist != nullptr) 
+            {
+                int subChoice;
+                do {
+                    cout << "\nLagu-lagu dalam Playlist: " << selectedPlaylist->name << endl;
+                    displaySongs(selectedPlaylist->songs);
 
                     cout << "\n=== Opsi Playlist ===" << endl;
                     cout << "1. Sort lagu berdasarkan nama lagu" << endl;
@@ -417,7 +485,8 @@ int main() {
                     cin >> subChoice;
                     cin.ignore();
 
-                    switch (subChoice) {
+                    switch (subChoice) 
+                    {
                         case 1:
                             sortSongsByName(selectedPlaylist->songs);
                             cout << "Lagu-lagu dalam playlist telah diurutkan berdasarkan nama." << endl;
@@ -426,14 +495,16 @@ int main() {
                             sortSongsByArtist(selectedPlaylist->songs);
                             cout << "Lagu-lagu dalam playlist telah diurutkan berdasarkan nama artis." << endl;
                             break;
-                        case 3: {
+                        case 3: 
+                        {
                             string songToDelete;
                             cout << "Masukkan nama lagu yang ingin dihapus: ";
                             getline(cin, songToDelete);
                             deleteSongFromPlaylist(selectedPlaylist->songs, songToDelete);
                             break;
                         }
-                        case 4: {
+                        case 4: 
+                        {
                             cout << "\n=== Daftar Lagu Tersedia ===" << endl;
                             displaySongs(availableSongs);
 
@@ -442,25 +513,32 @@ int main() {
                             cin >> songChoice;
                             cin.ignore();
 
-                            if (songChoice == 0) {
+                            if (songChoice == 0) 
+                            {
                                 cout << "Batal menambahkan lagu ke playlist." << endl;
                                 break;
                             }
 
                             Song* temp = availableSongs;
                             int index = 1;
-                            while (temp != nullptr && index < songChoice) {
+                            while (temp != nullptr && index < songChoice) 
+                            {
                                 temp = temp->next;
                                 index++;
                             }
 
                             if (temp != nullptr) {
-                                if (addSongToPlaylist(selectedPlaylist->songs, temp->name, temp->artist, temp->genre)) {
+                                if (addSongToPlaylist(selectedPlaylist->songs, temp->name, temp->artist, temp->genre)) 
+                                {
                                     cout << "Lagu '" << temp->name << "' berhasil ditambahkan ke playlist '" << selectedPlaylist->name << "'." << endl;
-                                } else {
+                                } 
+                                else 
+                                {
                                     cout << "Lagu tersebut sudah ada dalam playlist." << endl;
                                 }
-                            } else {
+                            } 
+                            else 
+                            {
                                 cout << "Pilihan tidak valid." << endl;
                             }
                             break;
@@ -472,29 +550,39 @@ int main() {
                             cout << "Pilihan tidak valid. Coba lagi." << endl;
                     }
                 } while (subChoice != 0);
-            } else {
+            } 
+            else 
+            {
                 cout << "Pilihan tidak valid!" << endl;
             }
             break;
         }
 
-        case 4: {
+        case 4: 
+        {
             string fileName;
             cout << "Masukkan nama file untuk membaca lagu (dengan .txt): ";
             cin >> fileName;
 
-            if (fileName.find(".txt") == string::npos) {
+            if (fileName.find(".txt") == string::npos) 
+            {
                 cout << "Harap masukkan file dengan format .txt" << endl;
-            } else {
+            } 
+            else 
+            {
                 readFromFile(availableSongs, fileName);
             }
             break;
         }
 
-        case 5: {
-            if (playlists == nullptr) {
+        case 5: 
+        {
+            if (playlists == nullptr) 
+            {
                 cout << "Tidak ada playlist yang tersedia untuk disimpan." << endl;
-            } else {
+            } 
+            else 
+            {
                 int playlistChoice;
                 cout << "\nDaftar Playlist:" << endl;
                 displayPlaylists(playlists);
@@ -503,34 +591,41 @@ int main() {
 
                 Playlist* temp = playlists;
                 int index = 1;
-                while (temp != nullptr && index < playlistChoice) {
+                while (temp != nullptr && index < playlistChoice) 
+                {
                     temp = temp->next;
                     index++;
                 }
 
-                if (temp != nullptr) {
+                if (temp != nullptr) 
+                {
                     string fileName;
                     cout << "Masukkan nama file untuk menyimpan playlist (dengan .txt): ";
                     cin >> fileName;
                     savePlaylistToFile(temp->songs, fileName);
-                } else {
+                } 
+                else 
+                {
                     cout << "Pilihan tidak valid." << endl;
                 }
             }
             break;
         }
 
-        case 6: {
+        case 6: 
+        {
             addSongFromUserInput(availableSongs);
             break;
         }
 
-        case 7: {
+        case 7: 
+        {
             addSongToFavorite(availableSongs, favoriteSongs, playlists);
             break;
         }
 
-        case 0:{
+        case 0:
+        {
             cout << "\nTerima kasih telah menggunakan Mini Spotify!" << endl;
             break;
         }
