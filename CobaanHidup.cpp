@@ -41,7 +41,7 @@ Playlist* createPlaylist(string name)
     return newPlaylist;
 }
 
-// add song to playlist
+// add song to playlist2
 bool addSongToPlaylist(Song*& playlistSongs, string name, string artist, string genre) 
 {
     // cek jika lagu sudah ada, return false
@@ -50,7 +50,7 @@ bool addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
     {
         if (temp->name == name && temp->artist == artist) 
         {
-            cout << "Lagu '" << name << "' sudah ada di dalam playlist ini." << endl;
+            // cout << "Lagu '" << name << "' sudah ada di dalam playlist ini." << endl;
             return false;
         }
         temp = temp->next;
@@ -69,7 +69,6 @@ bool addSongToPlaylist(Song*& playlistSongs, string name, string artist, string 
         }
         temp->next = newSong;
     }
-    cout << "Lagu '" << name << "' berhasil ditambahkan ke playlist." << endl; // hanya ditampilkan jika lagu berhasil ditambahkan
     return true; 
 }
 
@@ -365,6 +364,7 @@ int main()
     Song* availableSongs = nullptr; // lagu yang tersedia
     Playlist* playlists = nullptr; // playlist
     Song* favoriteSongs = nullptr; // playlist Favorite
+
     initializeAvailableSongs(availableSongs); // lagu awal yg tersedia
 
     // Tambah playlist "Favorite" ke daftar playlist
@@ -429,6 +429,10 @@ int main()
                     if (temp != nullptr) 
                     {
                         addSongToPlaylist(newPlaylist->songs, temp->name, temp->artist, temp->genre);
+                        if(!addSongToPlaylist(newPlaylist->songs, temp->name, temp->artist, temp->genre))
+                        {
+                            cout << "Lagu '" << temp->name << "' bsudah ada dalam playlist." << endl;
+                        }
                     } 
                     else 
                     {

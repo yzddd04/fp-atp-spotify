@@ -1,0 +1,1 @@
+cout << "Lagu '" << name << "' sudah ada di dalam playlist ini." << endl;
